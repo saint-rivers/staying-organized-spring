@@ -7,11 +7,11 @@ import org.apache.ibatis.jdbc.SQL;
 
 public class FolderProvider {
 
-    private final String tableName = "app_folders";
+    private final String TABLE_NAME = "app_folders";
 
     public String selectFolderById(@Param("req") FolderRequest folderRequest, boolean hasParent) {
         SQL sql = new SQL();
-        sql.INSERT_INTO(tableName);
+        sql.INSERT_INTO(TABLE_NAME);
         if (hasParent) {
             sql.VALUES(
                     "name, date_created, parent_id",
@@ -21,8 +21,8 @@ public class FolderProvider {
                     "name, date_created",
                     "#{req.name}, #{req.dateCreated}");
         }
-        System.out.println(sql.toString());
-        return sql.toString() + " RETURNING *";
+        System.out.println(sql);
+        return sql + " RETURNING *";
     }
 
 }

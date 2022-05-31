@@ -3,22 +3,22 @@ package com.stayingorganized.api.folder.model.request;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import com.stayingorganized.api.utils.DateModel;
-
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.experimental.SuperBuilder;
 
-@Getter
-@Setter
+
+@Data
 @NoArgsConstructor
-@AllArgsConstructor
-@SuperBuilder
-public class FolderRequest extends DateModel {
-    private UUID parentId;
+public class FolderRequest {
+
+    @JsonPropertyOrder(value = "1")
     private String name;
-    // private LocalDateTime createdAt;
-    // private LocalDateTime lastUpdated;
+
+    @JsonPropertyOrder(value = "2")
+    private UUID parentId;
+
+    @JsonIgnore
+    private LocalDateTime dateCreated;
 }

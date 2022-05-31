@@ -1,7 +1,11 @@
 package com.stayingorganized.api.folder;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
+import com.stayingorganized.api.folder.model.FolderTree;
 import com.stayingorganized.api.folder.model.request.FolderRequest;
 import com.stayingorganized.api.folder.model.Folder;
 import com.stayingorganized.api.folder.model.response.FolderResponse;
@@ -25,8 +29,29 @@ public class FolderServiceImpl implements FolderService {
     }
 
     @Override
+    public FolderTree getFolderTree(UUID rootFolderId) {
+        Folder folder = this.getFolderTreeRecursive(rootFolderId);
+        return modelMapper.map(folder, FolderTree.class);
+    }
+
+    private Folder getFolderTreeRecursive(UUID rootFolderId) {
+        Folder folder = folderRepository.findById(rootFolderId.toString());
+        if (folder.getSubFolders() != null) {
+            List<Folder> subFolders = new ArrayList<>();
+            folder.getSubFolders().forEach(f -> {
+                Folder tmp = this.getFolderTreeRecursive(f.getId());
+                subFolders.add(tmp);
+            });
+            folder.setSubFolders(subFolders);
+        }
+        return folder;
+    }
+
+    @Override
     public FolderResponse createFolder(FolderRequest folderRequest) {
-        Folder folder = folderRepository.insert(folderRequest, false);
+        folderRequest.setDateCreated(LocalDateTime.now());
+
+        Folder folder = folderRepository.insert(folderRequest, true);
         return modelMapper.map(folder, FolderResponse.class);
     }
 
