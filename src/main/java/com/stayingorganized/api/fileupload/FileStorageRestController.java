@@ -1,14 +1,11 @@
 package com.stayingorganized.api.fileupload;
 
-import com.stayingorganized.api.folder.model.request.FolderRequest;
-import com.stayingorganized.api.folder.model.response.FolderResponse;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -22,17 +19,17 @@ public class FileStorageRestController {
 
     private final FileService fileService;
 
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> createFolder(MultipartFile[] files) throws IOException {
+    @Operation(summary = "Upload multiple Files")
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> createFolder(@RequestPart MultipartFile[] files) throws IOException {
 
-        List<String> fileNames = new ArrayList<>();
+        List<FileUploadResponse> fileNames = new ArrayList<>();
         for (MultipartFile file : files) {
             fileNames.add(fileService.save(file));
         }
-        System.out.println(fileNames);
 
         return ResponseEntity
                 .ok()
-                .body(null);
+                .body(fileNames);
     }
 }

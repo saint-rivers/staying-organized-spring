@@ -12,7 +12,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @PropertySource("classpath:file-storage-dev.properties")
 public class FileConfig implements WebMvcConfigurer {
 
-    @Value("file.storage.location")
+    @Value("${file.storage.location}")
     private String fileStorageLocation;
 
     @Override

@@ -6,11 +6,13 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -18,27 +20,22 @@ import java.util.UUID;
 @PropertySource("classpath:/file-storage-dev.properties")
 public class FileServiceImpl implements FileService {
 
-    @Value("file.storage.location")
-    String fileStorageLocation;
+    @Value("${file.storage.location}")
+    String FILE_STORAGE_LOCATION;
 
-    public String save(MultipartFile file) throws IOException {
-        if (file.isEmpty()) {
-            throw new NullPointerException("File is empty");
-        }
-        Path uploadDirectory = Paths.get(fileStorageLocation);
+    public FileUploadResponse save(MultipartFile file) throws IOException {
+        String fileExtension = Objects.requireNonNull(file.getOriginalFilename()).split("\\.")[1];
+        String uuidFileName = UUID.randomUUID() + "." + fileExtension;
+        Path targetPath = Paths.get(FILE_STORAGE_LOCATION);
+//        String filename = Objects.requireNonNull(file.getOriginalFilename());
 
-        if (!uploadDirectory.toFile().exists()) {
-            boolean createdDirectorySuccessfully = uploadDirectory.toFile().mkdir();
-            log.info(createdDirectorySuccessfully ? "Created UPLOADS folder successfully." : "Unable to create uploads folder.");
-        }
+        Path targetFile = targetPath.resolve(uuidFileName);
+        Files.copy(file.getInputStream(), targetFile, StandardCopyOption.REPLACE_EXISTING);
 
-        String originalFilename = file.getOriginalFilename();
-        assert originalFilename != null;
-        String extension = originalFilename.split("\\.")[1];
-
-        String newFilename = UUID.randomUUID() + "." + extension;
-        Path targetFilename = uploadDirectory.resolve(newFilename);
-        Files.copy(file.getInputStream(), targetFilename, StandardCopyOption.REPLACE_EXISTING);
-        return newFilename;
+        return FileUploadResponse.builder()
+                .fileDisplayName(file.getOriginalFilename())
+                .generatedFileName(uuidFileName)
+                .build();
     }
+
 }

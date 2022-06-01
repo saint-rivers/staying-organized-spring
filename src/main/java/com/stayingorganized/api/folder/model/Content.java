@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 public class Content {
 
     private UUID id;
-    private String name;
+    private String displayName;
     private String resourceLocation;
     private ContentType type;
     
