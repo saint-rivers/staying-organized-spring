@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 import com.stayingorganized.api.folder.model.FolderTree;
+import com.stayingorganized.api.folder.model.exception.CircularFolderReferenceException;
 import com.stayingorganized.api.folder.model.request.FolderRequest;
 import com.stayingorganized.api.folder.model.Folder;
 import com.stayingorganized.api.folder.model.response.FolderResponse;
@@ -39,6 +40,7 @@ public class FolderServiceImpl implements FolderService {
         if (folder.getSubFolders() != null) {
             List<Folder> subFolders = new ArrayList<>();
             folder.getSubFolders().forEach(f -> {
+                if (f.getId() == rootFolderId) throw new CircularFolderReferenceException();
                 Folder tmp = this.getFolderTreeRecursive(f.getId());
                 subFolders.add(tmp);
             });

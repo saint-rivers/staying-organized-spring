@@ -24,9 +24,9 @@ public interface FolderRepository {
     })
     Folder findById(String folderId);
 
-//    @Select(SELECT_SUB_FOLDERS_OF_FOLDER)
-//    @ResultMap("FolderMap")
-//    List<Folder> findSubFoldersOfFolder(String folderId);
+    @Select(SELECT_SUB_FOLDERS_OF_FOLDER)
+    @ResultMap("FolderMap")
+    List<Folder> findSubFoldersOfFolder(String folderId);
 
     @SelectProvider(type = FolderProvider.class, method = "selectFolderById")
     @ResultMap("FolderMap")
