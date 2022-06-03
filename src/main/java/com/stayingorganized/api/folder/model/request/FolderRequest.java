@@ -1,6 +1,6 @@
 package com.stayingorganized.api.folder.model.request;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -20,5 +20,5 @@ public class FolderRequest {
     private UUID parentId;
 
     @JsonIgnore
-    private LocalDateTime dateCreated;
+    private Date dateCreated;
 }

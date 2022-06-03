@@ -16,22 +16,25 @@ import org.apache.ibatis.type.MappedTypes;
 public class UuidTypeHandler extends BaseTypeHandler<UUID> {
     @Override
     public void setNonNullParameter(PreparedStatement ps, int i,
-            UUID parameter, JdbcType jdbcType) throws SQLException {
+                                    UUID parameter, JdbcType jdbcType) throws SQLException {
         ps.setObject(i, parameter, jdbcType.TYPE_CODE);
     }
+
     @Override
     public UUID getNullableResult(ResultSet rs, String columnName)
             throws SQLException {
-        return (UUID)rs.getObject(columnName);
+        return (UUID) rs.getObject(columnName);
     }
+
     @Override
     public UUID getNullableResult(ResultSet rs, int columnIndex)
             throws SQLException {
-        return (UUID)rs.getObject(columnIndex);
+        return (UUID) rs.getObject(columnIndex);
     }
+
     @Override
     public UUID getNullableResult(CallableStatement cs, int columnIndex)
             throws SQLException {
-        return (UUID)cs.getObject(columnIndex);
+        return (UUID) cs.getObject(columnIndex);
     }
 }

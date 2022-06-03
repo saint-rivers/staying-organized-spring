@@ -18,6 +18,6 @@ public class FileConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/folder/**")
-                .addResourceLocations("file:" + fileStorageLocation);
+                .addResourceLocations("file:" + fileStorageLocation + "/");
     }
 }

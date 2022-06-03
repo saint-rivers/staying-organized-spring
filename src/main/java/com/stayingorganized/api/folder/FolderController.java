@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/api/v1/folders")
 @RequiredArgsConstructor
+@CrossOrigin
 public class FolderController {
 
     private final FolderService folderService;
@@ -26,7 +27,7 @@ public class FolderController {
                 .body(folder);
     }
 
-    @GetMapping("/root/{id}")
+    @GetMapping("/tree/{id}")
     public ResponseEntity<?> getFolderTree(@PathVariable("id") String folderId) {
         FolderTree folder = folderService.getFolderTree(UUID.fromString(folderId));
         return ResponseEntity

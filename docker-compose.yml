@@ -13,7 +13,7 @@ services:
     ports:
       - "4432:5432"
     environment:
-      - POSTGRES_DB=staying-organized
+      - POSTGRES_DB=staying_organized
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=password
       - PGDATA=/var/lib/postgresql/data

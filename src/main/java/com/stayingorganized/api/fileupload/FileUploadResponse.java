@@ -1,13 +1,15 @@
 package com.stayingorganized.api.fileupload;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.stayingorganized.api.content.ContentUploadRequest;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
-@Builder
-public class FileUploadResponse {
+@AllArgsConstructor
+@SuperBuilder
+public class FileUploadResponse extends ContentUploadRequest {
 
-    private String fileDisplayName;
-    private String generatedFileName;
+//    private String fileDisplayName;
+//    private String generatedFileName;
 }

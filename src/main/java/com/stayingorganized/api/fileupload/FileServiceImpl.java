@@ -1,5 +1,7 @@
 package com.stayingorganized.api.fileupload;
 
+import com.stayingorganized.api.content.ContentUploadRequest;
+import com.stayingorganized.api.folder.model.enums.ContentType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -12,6 +14,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -32,10 +35,22 @@ public class FileServiceImpl implements FileService {
         Path targetFile = targetPath.resolve(uuidFileName);
         Files.copy(file.getInputStream(), targetFile, StandardCopyOption.REPLACE_EXISTING);
 
+//        return ContentUploadRequest.builder()
+//                .createdAt(DateTime.now())
+//                .displayName(file.getOriginalFilename())
+//
+//                .build();
+//
+        Date now = new Date();
         return FileUploadResponse.builder()
-                .fileDisplayName(file.getOriginalFilename())
-                .generatedFileName(uuidFileName)
+                .createdAt(now)
+                .displayName(file.getOriginalFilename())
+                .lastUpdated(now)
+                .type(ContentType.DOCUMENT)
+                .resourceLocation(uuidFileName)
                 .build();
+
+
     }
 
 }

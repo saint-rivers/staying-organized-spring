@@ -1,6 +1,6 @@
 package com.stayingorganized.api.fileupload;
 
-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import com.stayingorganized.api.content.ContentUploadRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -15,7 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/files")
 @RequiredArgsConstructor
-public class FileStorageRestController {
+public class FileUploadController {
 
     private final FileService fileService;
 
